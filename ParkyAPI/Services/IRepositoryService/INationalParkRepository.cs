@@ -5,9 +5,9 @@ namespace ParkyAPI.Services.IRepositoryService
 {
     public interface INationalParkRepository
     {
-        IEnumerable<NationalPark> GetAll();
+        IEnumerable<NationalPark> GetAllNationalParks();
 
-        NationalPark GetById(int nationalParkId);
+        NationalPark GetNationalParkById(int nationalParkId);
 
         bool Update(NationalPark nationalPark);
 

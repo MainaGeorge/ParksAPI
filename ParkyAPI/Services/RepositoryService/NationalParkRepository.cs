@@ -14,12 +14,12 @@ namespace ParkyAPI.Services.RepositoryService
         {
             _context = context;
         }
-        public IEnumerable<NationalPark> GetAll()
+        public IEnumerable<NationalPark> GetAllNationalParks()
         {
             return _context.NationalParks.ToList();
         }
 
-        public NationalPark GetById(int nationalParkId)
+        public NationalPark GetNationalParkById(int nationalParkId)
         {
             return _context.NationalParks.FirstOrDefault(p => p.Id == nationalParkId);
         }
