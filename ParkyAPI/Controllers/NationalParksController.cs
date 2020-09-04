@@ -84,7 +84,7 @@ namespace ParkyAPI.Controllers
         {
             if (nationalParkDto.Id != nationalParkId)
             {
-                return BadRequest();
+                return Unauthorized();
             }
 
             if (!ModelState.IsValid)
@@ -106,5 +106,22 @@ namespace ParkyAPI.Controllers
             return StatusCode(500, ModelState);
 
         }
+
+        [HttpDelete("{nationalParkId:int}")]
+        public IActionResult DeleteNationalPark(int nationalParkId)
+        {
+            if (!_nationalParkRepository.NationalParkExists(nationalParkId))
+            {
+                return BadRequest();
+            }
+
+            if (!_nationalParkRepository.DeleteNationalParkFromDatabase(nationalParkId))
+            {
+                return StatusCode(500, new { error = "something went wrong while deleting the park" });
+            }
+
+            return NoContent();
+        }
+
     }
 }
