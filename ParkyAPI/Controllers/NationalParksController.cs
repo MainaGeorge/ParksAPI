@@ -52,7 +52,7 @@ namespace ParkyAPI.Controllers
         [HttpPost]
         public IActionResult PostNationalPark([FromBody] NationalParkDto nationalParkDto)
         {
-           
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -60,11 +60,11 @@ namespace ParkyAPI.Controllers
 
             if (_nationalParkRepository.NationalParkExists(nationalParkDto.Name))
             {
-                ModelState.AddModelError("Can not allow duplicates", "Park already exists in the database");
+                ModelState.AddModelError("duplicates", "Park already exists in the database");
                 return BadRequest(ModelState);
             }
 
-            
+
 
             var nationalParkToPost = _mapper.Map<NationalPark>(nationalParkDto);
 
@@ -77,6 +77,34 @@ namespace ParkyAPI.Controllers
             nationalParkDto.Id = nationalParkToPost.Id;
 
             return CreatedAtAction("GetNationalParkById", new { nationalParkId = nationalParkToPost.Id }, nationalParkDto);
+        }
+
+        [HttpPatch("{nationalParkId:int}", Name = "UpdateNationalPark")]
+        public IActionResult UpdateNationalPark(int nationalParkId, [FromBody] NationalParkDto nationalParkDto)
+        {
+            if (nationalParkDto.Id != nationalParkId)
+            {
+                return BadRequest();
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            if (!_nationalParkRepository.NationalParkExists(nationalParkId))
+            {
+                ModelState.AddModelError("non-existing park", "Can't update a non-existing park");
+                return BadRequest(ModelState);
+            }
+
+            var nationalPark = _mapper.Map<NationalPark>(nationalParkDto);
+
+            if (_nationalParkRepository.UpdateNationalPark(nationalPark)) return NoContent();
+
+            ModelState.AddModelError("server error", "something went wrong while updating");
+            return StatusCode(500, ModelState);
+
         }
     }
 }

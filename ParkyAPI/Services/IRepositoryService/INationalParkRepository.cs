@@ -9,7 +9,7 @@ namespace ParkyAPI.Services.IRepositoryService
 
         NationalPark GetNationalParkById(int nationalParkId);
 
-        bool Update(NationalPark nationalPark);
+        bool UpdateNationalPark(NationalPark nationalPark);
 
         bool AddNationalParkToDatabase(NationalPark nationalPark);
 

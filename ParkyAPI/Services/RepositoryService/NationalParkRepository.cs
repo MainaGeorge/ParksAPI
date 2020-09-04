@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using ParkyAPI.Data;
+﻿using ParkyAPI.Data;
 using ParkyAPI.Models;
 using ParkyAPI.Services.IRepositoryService;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace ParkyAPI.Services.RepositoryService
 {
@@ -24,7 +24,7 @@ namespace ParkyAPI.Services.RepositoryService
             return _context.NationalParks.FirstOrDefault(p => p.Id == nationalParkId);
         }
 
-        public bool Update(NationalPark nationalPark)
+        public bool UpdateNationalPark(NationalPark nationalPark)
         {
             var parkToUpdate = _context.NationalParks.FirstOrDefault(p => p.Id == nationalPark.Id);
 
@@ -58,13 +58,13 @@ namespace ParkyAPI.Services.RepositoryService
 
         public bool NationalParkExists(string nationalParkName)
         {
-            return _context.NationalParks.Any(p => p.Name == nationalParkName);
+            return _context.NationalParks.Any(p => p.Name.ToLower().Trim() == nationalParkName.ToLower().Trim());
 
         }
 
         public bool NationalParkExists(int nationalParkId)
         {
-            return  _context.NationalParks.Any(p => p.Id == nationalParkId);
+            return _context.NationalParks.Any(p => p.Id == nationalParkId);
 
         }
 
