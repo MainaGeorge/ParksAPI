@@ -32,21 +32,51 @@ namespace ParkyAPI.Controllers
             return Ok(nationalParksToReturn);
         }
 
-        [HttpGet("{nationalParkId}")]
+        [HttpGet("{nationalParkId:int}", Name = "GetNationalParkById")]
         public IActionResult GetNationalParkById(int nationalParkId)
         {
             var nationalPark = _nationalParkRepository.GetNationalParkById(nationalParkId);
 
             if (nationalPark == null)
             {
-                return NotFound("There is no national park with that id");
+                return NotFound();
             }
             else
             {
-                var parkDto = _mapper.Map<NationalPark, NationalParkDto>(nationalPark);
+                var parkDto = _mapper.Map<NationalParkDto>(nationalPark);
 
                 return Ok(parkDto);
             }
+        }
+
+        [HttpPost]
+        public IActionResult PostNationalPark([FromBody] NationalParkDto nationalParkDto)
+        {
+           
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            if (_nationalParkRepository.NationalParkExists(nationalParkDto.Name))
+            {
+                ModelState.AddModelError("Can not allow duplicates", "Park already exists in the database");
+                return BadRequest(ModelState);
+            }
+
+            
+
+            var nationalParkToPost = _mapper.Map<NationalPark>(nationalParkDto);
+
+            if (!_nationalParkRepository.AddNationalParkToDatabase(nationalParkToPost))
+            {
+                ModelState.AddModelError(string.Empty, "Something went wrong while saving the park");
+                return StatusCode(500, ModelState);
+            }
+
+            nationalParkDto.Id = nationalParkToPost.Id;
+
+            return CreatedAtAction("GetNationalParkById", new { nationalParkId = nationalParkToPost.Id }, nationalParkDto);
         }
     }
 }
