@@ -5,10 +5,14 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.OpenApi.Models;
 using ParkyAPI.Data;
 using ParkyAPI.Mapper;
 using ParkyAPI.Services.IRepositoryService;
 using ParkyAPI.Services.RepositoryService;
+using System;
+using System.IO;
+using System.Reflection;
 
 namespace ParkyAPI
 {
@@ -34,6 +38,22 @@ namespace ParkyAPI
             services.AddScoped<INationalParkRepository, NationalParkRepository>();
 
             services.AddAutoMapper(typeof(Mappings));
+
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("ParksApi", new OpenApiInfo
+                {
+                    Version = "v1",
+                    Title = "Parks API",
+                    Description = "info about national parks"
+                });
+
+                var xmlCommentsPath = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var commentsFullPath = Path.Combine(AppContext.BaseDirectory, xmlCommentsPath);
+
+                c.IncludeXmlComments(commentsFullPath);
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -45,6 +65,12 @@ namespace ParkyAPI
             }
 
             app.UseHttpsRedirection();
+            app.UseSwagger();
+            app.UseSwaggerUI(opt =>
+            {
+                opt.SwaggerEndpoint("/swagger/ParksApi/swagger.json", "Parks Api");
+                opt.RoutePrefix = string.Empty;
+            });
 
             app.UseRouting();
 

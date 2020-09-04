@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ParkyAPI</name>
+    </assembly>
+    <members>
+        <member name="T:ParkyAPI.Controllers.NationalParksController">
+            <summary>
+            park controller
+            </summary>
+        </member>
+        <member name="M:ParkyAPI.Controllers.NationalParksController.#ctor(ParkyAPI.Services.IRepositoryService.INationalParkRepository,AutoMapper.IMapper)">
+            <summary>
+            initialize auto mapper and repo
+            </summary>
+            <param name="nationalParkRepository"></param>
+            <param name="mapper"></param>
+        </member>
+        <member name="M:ParkyAPI.Controllers.NationalParksController.GetAllNationalParks">
+            <summary>
+                Returns a list of all the national parks in the database
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ParkyAPI.Controllers.NationalParksController.GetNationalParkById(System.Int32)">
+            <summary>
+                Returns a national park with the specified id or null if none is found
+            </summary>
+            <param name="nationalParkId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ParkyAPI.Controllers.NationalParksController.PostNationalPark(ParkyAPI.Models.DTOs.NationalParkDto)">
+            <summary>
+                adds a national park to the existing record of national parks
+            </summary>
+            <param name="nationalParkDto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ParkyAPI.Controllers.NationalParksController.UpdateNationalPark(System.Int32,ParkyAPI.Models.DTOs.NationalParkDto)">
+            <summary>
+                updates the national park with the given id to the new provided values
+            </summary>
+            <param name="nationalParkId"></param>
+            <param name="nationalParkDto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ParkyAPI.Controllers.NationalParksController.DeleteNationalPark(System.Int32)">
+            <summary>
+                deletes the national park with the given id from the record of national parks
+            </summary>
+            <param name="nationalParkId"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

@@ -7,13 +7,21 @@ using System.Collections.Generic;
 
 namespace ParkyAPI.Controllers
 {
+    /// <summary>
+    /// park controller
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class NationalParksController : ControllerBase
     {
-        private readonly INationalParkRepository _nationalParkRepository;
         private readonly IMapper _mapper;
+        private readonly INationalParkRepository _nationalParkRepository;
 
+        /// <summary>
+        /// initialize auto mapper and repo
+        /// </summary>
+        /// <param name="nationalParkRepository"></param>
+        /// <param name="mapper"></param>
         public NationalParksController(INationalParkRepository nationalParkRepository,
             IMapper mapper)
         {
@@ -21,6 +29,10 @@ namespace ParkyAPI.Controllers
             _mapper = mapper;
         }
 
+        /// <summary>
+        ///     Returns a list of all the national parks in the database
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public IActionResult GetAllNationalParks()
         {
@@ -32,6 +44,11 @@ namespace ParkyAPI.Controllers
             return Ok(nationalParksToReturn);
         }
 
+        /// <summary>
+        ///     Returns a national park with the specified id or null if none is found
+        /// </summary>
+        /// <param name="nationalParkId"></param>
+        /// <returns></returns>
         [HttpGet("{nationalParkId:int}", Name = "GetNationalParkById")]
         public IActionResult GetNationalParkById(int nationalParkId)
         {
@@ -41,29 +58,27 @@ namespace ParkyAPI.Controllers
             {
                 return NotFound();
             }
-            else
-            {
-                var parkDto = _mapper.Map<NationalParkDto>(nationalPark);
 
-                return Ok(parkDto);
-            }
+            var parkDto = _mapper.Map<NationalParkDto>(nationalPark);
+
+            return Ok(parkDto);
         }
 
+        /// <summary>
+        ///     adds a national park to the existing record of national parks
+        /// </summary>
+        /// <param name="nationalParkDto"></param>
+        /// <returns></returns>
         [HttpPost]
         public IActionResult PostNationalPark([FromBody] NationalParkDto nationalParkDto)
         {
-
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+            if (!ModelState.IsValid) return BadRequest(ModelState);
 
             if (_nationalParkRepository.NationalParkExists(nationalParkDto.Name))
             {
                 ModelState.AddModelError("duplicates", "Park already exists in the database");
                 return BadRequest(ModelState);
             }
-
 
 
             var nationalParkToPost = _mapper.Map<NationalPark>(nationalParkDto);
@@ -76,21 +91,22 @@ namespace ParkyAPI.Controllers
 
             nationalParkDto.Id = nationalParkToPost.Id;
 
-            return CreatedAtAction("GetNationalParkById", new { nationalParkId = nationalParkToPost.Id }, nationalParkDto);
+            return CreatedAtAction("GetNationalParkById", new { nationalParkId = nationalParkToPost.Id },
+                nationalParkDto);
         }
 
+        /// <summary>
+        ///     updates the national park with the given id to the new provided values
+        /// </summary>
+        /// <param name="nationalParkId"></param>
+        /// <param name="nationalParkDto"></param>
+        /// <returns></returns>
         [HttpPatch("{nationalParkId:int}", Name = "UpdateNationalPark")]
         public IActionResult UpdateNationalPark(int nationalParkId, [FromBody] NationalParkDto nationalParkDto)
         {
-            if (nationalParkDto.Id != nationalParkId)
-            {
-                return Unauthorized();
-            }
+            if (nationalParkDto.Id != nationalParkId) return Unauthorized();
 
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+            if (!ModelState.IsValid) return BadRequest(ModelState);
 
             if (!_nationalParkRepository.NationalParkExists(nationalParkId))
             {
@@ -104,24 +120,22 @@ namespace ParkyAPI.Controllers
 
             ModelState.AddModelError("server error", "something went wrong while updating");
             return StatusCode(500, ModelState);
-
         }
 
+        /// <summary>
+        ///     deletes the national park with the given id from the record of national parks
+        /// </summary>
+        /// <param name="nationalParkId"></param>
+        /// <returns></returns>
         [HttpDelete("{nationalParkId:int}")]
         public IActionResult DeleteNationalPark(int nationalParkId)
         {
-            if (!_nationalParkRepository.NationalParkExists(nationalParkId))
-            {
-                return BadRequest();
-            }
+            if (!_nationalParkRepository.NationalParkExists(nationalParkId)) return BadRequest();
 
             if (!_nationalParkRepository.DeleteNationalParkFromDatabase(nationalParkId))
-            {
                 return StatusCode(500, new { error = "something went wrong while deleting the park" });
-            }
 
             return NoContent();
         }
-
     }
 }
