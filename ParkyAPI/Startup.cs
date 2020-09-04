@@ -5,6 +5,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using ParkyAPI.Data;
+using ParkyAPI.Services.IRepositoryService;
+using ParkyAPI.Services.RepositoryService;
 
 namespace ParkyAPI
 {
@@ -26,6 +28,8 @@ namespace ParkyAPI
             {
                 opt.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             });
+
+            services.AddScoped<INationalParkRepository, NationalParkRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
