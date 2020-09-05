@@ -9,13 +9,6 @@
             park controller
             </summary>
         </member>
-        <member name="M:ParkyAPI.Controllers.NationalParksController.#ctor(ParkyAPI.Services.IRepositoryService.INationalParkRepository,AutoMapper.IMapper)">
-            <summary>
-            initialize auto mapper and repo
-            </summary>
-            <param name="nationalParkRepository"></param>
-            <param name="mapper"></param>
-        </member>
         <member name="M:ParkyAPI.Controllers.NationalParksController.GetAllNationalParks">
             <summary>
                 Returns a list of all the national parks in the database

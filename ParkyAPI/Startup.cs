@@ -46,7 +46,12 @@ namespace ParkyAPI
                 {
                     Version = "v1",
                     Title = "Parks API",
-                    Description = "info about national parks"
+                    Description = "info about national parks", 
+                    Contact = new OpenApiContact()
+                    {
+                        Email = "genage08@yahoo.com",
+                        Name = "George Maina"
+                    }
                 });
 
                 var xmlCommentsPath = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
