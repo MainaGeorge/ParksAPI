@@ -7,7 +7,7 @@
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
       <DocumentationFile>ParkyAPI.xml</DocumentationFile>
       <WarningsAsErrors>NU1605</WarningsAsErrors>
-      <NoWarn>1701;1702;1591;</NoWarn>
+      <NoWarn>1701;1702;1591;CA1819;</NoWarn>
     </PropertyGroup>
 
     <ItemGroup>
