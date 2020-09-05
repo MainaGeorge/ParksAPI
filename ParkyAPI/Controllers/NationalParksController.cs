@@ -11,7 +11,8 @@ namespace ParkyAPI.Controllers
     /// <summary>
     /// park controller
     /// </summary>
-    [Route("api/[controller]")]
+    [Route("api/v{version:apiVersion}/nationalparks")]
+    [ApiVersion("1.0")]
     [ApiController]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public class NationalParksController : ControllerBase
@@ -94,7 +95,8 @@ namespace ParkyAPI.Controllers
 
             nationalParkDto.Id = nationalParkToPost.Id;
 
-            return CreatedAtAction("GetNationalParkById", new { nationalParkId = nationalParkToPost.Id },
+            return CreatedAtAction("GetNationalParkById",
+                new { nationalParkId = nationalParkToPost.Id, version = HttpContext.GetRequestedApiVersion()?.ToString() },
                 nationalParkDto);
         }
 
