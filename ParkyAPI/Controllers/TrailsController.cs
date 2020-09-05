@@ -57,6 +57,21 @@ namespace ParkyAPI.Controllers
             return Ok(trailDto);
 
         }
+        /// <summary>
+        /// returns all the trails in a given national park
+        /// </summary>
+        /// <param name="nationalParkId"></param>
+        /// <returns></returns>
+        [HttpGet("[action]/{nationalParkId:int}")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<TrailDto>))]
+        public IActionResult GetAllTrailsInANationalPark(int nationalParkId)
+        {
+            var trails = _trailRepository.GetAllTrailsInANationalPark(nationalParkId);
+
+            var trailsDto = _mapper.Map<IEnumerable<Trail>, IEnumerable<TrailDto>>(trails);
+
+            return Ok(trailsDto);
+        }
 
         /// <summary>
         /// Saves a trail to the records

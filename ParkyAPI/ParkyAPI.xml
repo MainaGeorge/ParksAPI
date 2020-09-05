@@ -57,6 +57,13 @@
             <param name="trailId"></param>
             <returns></returns>
         </member>
+        <member name="M:ParkyAPI.Controllers.TrailsController.GetAllTrailsInANationalPark(System.Int32)">
+            <summary>
+            returns all the trails in a given national park
+            </summary>
+            <param name="nationalParkId"></param>
+            <returns></returns>
+        </member>
         <member name="M:ParkyAPI.Controllers.TrailsController.PostTrail(ParkyAPI.Models.DTOs.CreateTrailDto)">
             <summary>
             Saves a trail to the records
