@@ -28,7 +28,8 @@ namespace ParkyAPI.Services.RepositoryService
 
         public Trail GetTrailById(int trailId)
         {
-            return _db.Trails.FirstOrDefault(t => t.Id == trailId);
+            return _db.Trails.Include(t => t.NationalPark)
+                .FirstOrDefault(t => t.Id == trailId);
         }
 
         public IEnumerable<Trail> GetAllTrails()

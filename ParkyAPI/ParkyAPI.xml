@@ -44,5 +44,11 @@
             <param name="nationalParkId"></param>
             <returns></returns>
         </member>
+        <member name="M:ParkyAPI.Controllers.TrailsController.GetAllTrails">
+            <summary>
+            Returns a collection of all the trails available in the records
+            </summary>
+            <returns></returns>
+        </member>
     </members>
 </doc>
