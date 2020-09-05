@@ -9,7 +9,7 @@ namespace ParkyAPI.Services.IRepositoryService
         bool TrailExists(string trailName);
         Trail GetTrailById(int trailId);
         IEnumerable<Trail> GetAllTrails();
-        bool UpdateTrial(int trailId, Trail trail);
+        bool UpdateTrial(int trailId, UpdateTrailDto trail);
         bool PostNewTrail(Trail trail);
         bool DeleteTrail(int trailId);
         IEnumerable<Trail> GetAllTrailsInANationalPark(int nationalParkId);

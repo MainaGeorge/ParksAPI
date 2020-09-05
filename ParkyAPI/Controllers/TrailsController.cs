@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using ParkyAPI.Models;
 using ParkyAPI.Models.DTOs;
 using ParkyAPI.Services.IRepositoryService;
+using System;
 using System.Collections.Generic;
 
 namespace ParkyAPI.Controllers
@@ -76,6 +77,7 @@ namespace ParkyAPI.Controllers
             }
 
             var trailToPost = _mapper.Map<Trail>(createTrailDto);
+            trailToPost.DateCreated = DateTime.Now;
 
             if (_trailRepository.PostNewTrail(trailToPost))
             {
@@ -106,6 +108,30 @@ namespace ParkyAPI.Controllers
             ModelState.AddModelError("server error", "something went wrong while deleting");
             return StatusCode(StatusCodes.Status500InternalServerError, ModelState);
         }
-    }
 
+        /// <summary>
+        /// updates the trail with the given trail id with the data provided
+        /// </summary>
+        /// <param name="trailId"></param>
+        /// <param name="updateTrailDto"></param>
+        /// <returns></returns>
+        [HttpPatch("{trailId:int}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public IActionResult UpdateTrail(int trailId, UpdateTrailDto updateTrailDto)
+        {
+            if (trailId != updateTrailDto.Id) return Unauthorized();
+
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
+            if (!_trailRepository.TrailExists(trailId)) return BadRequest();
+
+            if (_trailRepository.UpdateTrial(trailId, updateTrailDto)) return NoContent();
+
+            ModelState.AddModelError("server error", "something went wrong while updating");
+            return StatusCode(StatusCodes.Status500InternalServerError, ModelState);
+
+        }
+    }
 }

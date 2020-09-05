@@ -36,12 +36,15 @@ namespace ParkyAPI.Services.RepositoryService
             return _db.Trails.Include(t => t.NationalPark);
         }
 
-        public bool UpdateTrial(int trailId, Trail trail)
+        public bool UpdateTrial(int trailId, UpdateTrailDto trail)
         {
             if (!TrailExists(trailId)) return false;
             var trailToUpdate = _db.Trails.Single(t => t.Id == trailId);
 
-            _db.Entry(trailToUpdate).State = EntityState.Modified;
+            trailToUpdate.Name = trail.Name;
+            trailToUpdate.DifficultyLevel = trail.DifficultyLevel;
+            trailToUpdate.NationalParkId = trail.NationalParkId;
+            trailToUpdate.Distance = trail.Distance;
 
             return SaveChanges();
         }
