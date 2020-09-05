@@ -64,5 +64,12 @@
             <param name="createTrailDto"></param>
             <returns></returns>
         </member>
+        <member name="M:ParkyAPI.Controllers.TrailsController.DeleteTrail(System.Int32)">
+            <summary>
+            Removes a trail from the collection of stored trails
+            </summary>
+            <param name="trailId"></param>
+            <returns></returns>
+        </member>
     </members>
 </doc>

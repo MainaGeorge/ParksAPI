@@ -88,5 +88,24 @@ namespace ParkyAPI.Controllers
             return StatusCode(StatusCodes.Status500InternalServerError, ModelState);
 
         }
+
+        /// <summary>
+        /// Removes a trail from the collection of stored trails
+        /// </summary>
+        /// <param name="trailId"></param>
+        /// <returns></returns>
+        [HttpDelete("{trailId:int}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public IActionResult DeleteTrail(int trailId)
+        {
+            if (!_trailRepository.TrailExists(trailId)) return BadRequest();
+
+            if (_trailRepository.DeleteTrail(trailId)) return NoContent();
+
+            ModelState.AddModelError("server error", "something went wrong while deleting");
+            return StatusCode(StatusCodes.Status500InternalServerError, ModelState);
+        }
     }
+
 }
