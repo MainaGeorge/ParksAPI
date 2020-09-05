@@ -37,6 +37,11 @@ namespace ParkyAPI.Controllers
             return Ok(trailDtos);
         }
 
+        /// <summary>
+        /// returns the trail with the given trail id
+        /// </summary>
+        /// <param name="trailId"></param>
+        /// <returns></returns>
         [HttpGet("{trailId:int}", Name = "GetTrailById")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(TrailDto))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -49,6 +54,38 @@ namespace ParkyAPI.Controllers
             var trailDto = _mapper.Map<Trail, TrailDto>(trail);
 
             return Ok(trailDto);
+
+        }
+
+        /// <summary>
+        /// Saves a trail to the records
+        /// </summary>
+        /// <param name="createTrailDto"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(CreateTrailDto))]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public IActionResult PostTrail([FromBody] CreateTrailDto createTrailDto)
+        {
+            if (!ModelState.IsValid) return BadRequest(modelState: ModelState);
+
+            if (_trailRepository.TrailExists(createTrailDto.Name))
+            {
+                ModelState.AddModelError("no duplicates", "Trail already exists");
+                return BadRequest(ModelState);
+            }
+
+            var trailToPost = _mapper.Map<Trail>(createTrailDto);
+
+            if (_trailRepository.PostNewTrail(trailToPost))
+            {
+                return CreatedAtAction("GetTrailById",
+                    new { trailId = trailToPost.Id },
+                    _mapper.Map<CreateTrailDto>(trailToPost));
+            }
+
+            ModelState.AddModelError("server error", "something went wrong while saving the trail");
+            return StatusCode(StatusCodes.Status500InternalServerError, ModelState);
 
         }
     }

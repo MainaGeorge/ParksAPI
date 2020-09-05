@@ -50,5 +50,19 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:ParkyAPI.Controllers.TrailsController.GetTrailById(System.Int32)">
+            <summary>
+            returns the trail with the given trail id
+            </summary>
+            <param name="trailId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ParkyAPI.Controllers.TrailsController.PostTrail(ParkyAPI.Models.DTOs.CreateTrailDto)">
+            <summary>
+            Saves a trail to the records
+            </summary>
+            <param name="createTrailDto"></param>
+            <returns></returns>
+        </member>
     </members>
 </doc>

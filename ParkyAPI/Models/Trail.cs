@@ -6,7 +6,7 @@ namespace ParkyAPI.Models
 {
     public enum DifficultyLevel
     {
-        Easy,
+        Easy = 1,
         Moderate,
         Difficult,
         Expert

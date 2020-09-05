@@ -2,7 +2,6 @@
 using ParkyAPI.Data;
 using ParkyAPI.Models;
 using ParkyAPI.Services.IRepositoryService;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -23,7 +22,7 @@ namespace ParkyAPI.Services.RepositoryService
 
         public bool TrailExists(string trailName)
         {
-            return _db.Trails.Any(t => string.Equals(t.Name, trailName, StringComparison.OrdinalIgnoreCase));
+            return _db.Trails.Any(t => t.Name.ToLower().Trim() == trailName.ToLower().Trim());
         }
 
         public Trail GetTrailById(int trailId)

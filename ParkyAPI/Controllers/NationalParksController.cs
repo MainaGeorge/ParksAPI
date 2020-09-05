@@ -89,7 +89,7 @@ namespace ParkyAPI.Controllers
             if (!_nationalParkRepository.AddNationalParkToDatabase(nationalParkToPost))
             {
                 ModelState.AddModelError(string.Empty, "Something went wrong while saving the park");
-                return StatusCode(500, ModelState);
+                return StatusCode(StatusCodes.Status500InternalServerError, ModelState);
             }
 
             nationalParkDto.Id = nationalParkToPost.Id;
