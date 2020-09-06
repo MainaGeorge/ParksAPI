@@ -34,6 +34,7 @@ namespace ParkyAPI.Services.RepositoryService
             parkToUpdate.Created = nationalPark.Created;
             parkToUpdate.Established = nationalPark.Established;
             parkToUpdate.State = nationalPark.State;
+            parkToUpdate.Picture = nationalPark.Picture;
 
             return SaveChanges();
 

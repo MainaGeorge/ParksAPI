@@ -84,6 +84,7 @@ namespace NationalParksProject.Services.Repository
             {
                 request.Content = new StringContent(JsonConvert.SerializeObject(updateObject),
                     Encoding.UTF8, "application/json");
+
                 var client = _clientFactory.CreateClient();
 
                 var response = await client.SendAsync(request);
