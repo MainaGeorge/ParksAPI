@@ -63,6 +63,7 @@ namespace NationalParksProject.Controllers
 
         }
 
+        [HttpDelete]
         public async Task<IActionResult> Delete(int id)
         {
             if (await _nationalParkRepository.DeleteAsync(AppConstants.NationalParkApiPath, id))
@@ -77,10 +78,12 @@ namespace NationalParksProject.Controllers
         {
             await _nationalParkRepository.CreateAsync(AppConstants.NationalParkApiPath, nationalPark);
         }
+
         private async Task UpdateNationalPark(NationalPark nationalPark)
         {
             await _nationalParkRepository.UpdateAsync(AppConstants.NationalParkApiPath, nationalPark.Id, nationalPark);
         }
+
         private static byte[] ChangeImageToByteArray(IFormFileCollection files)
         {
             using var readStream = files[0].OpenReadStream();
