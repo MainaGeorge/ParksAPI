@@ -42,5 +42,36 @@ namespace NationalParksProject.Controllers
 
             return View(viewModel);
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Upsert(TrailViewModel viewModel)
+        {
+            if (!ModelState.IsValid) return View(viewModel);
+
+            if (viewModel.Trail.Id == 0)
+            {
+                await _trailRepository.CreateAsync(AppConstants.TrailsApiPath, viewModel.Trail);
+            }
+            else
+            {
+                await _trailRepository.UpdateAsync(AppConstants.TrailsApiPath, viewModel.Trail.Id, viewModel.Trail);
+            }
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpDelete]
+        public async Task<IActionResult> Delete(int id)
+        {
+            if (await _trailRepository.DeleteAsync(AppConstants.TrailsApiPath, id))
+            {
+                return Json(new {success = true, message = "deleted successfully"});
+            }
+            else
+            {
+                return Json(new {success = false, message = "something went wrong while deleting"});
+            }
+        }
     }
 }
