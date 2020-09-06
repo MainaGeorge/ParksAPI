@@ -18,6 +18,9 @@ namespace ParkyAPI.Models.DTOs
         [Required]
         public double Distance { get; set; }
 
+        [Required]
+        public double Elevation { get; set; }
+
         public DifficultyLevel DifficultyLevel { get; set; }
 
     }

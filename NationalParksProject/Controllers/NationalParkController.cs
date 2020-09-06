@@ -70,8 +70,11 @@ namespace NationalParksProject.Controllers
             {
                 return Json(new { success = true, message = "successfully deleted" });
             }
+            else
+            {
+                return Json(new { success = false, message = "something went wrong while deleting" });
+            }
 
-            return Json(new { success = false, message = "something went wrong while deleting" });
         }
 
         private async Task CreateNationalPark(NationalPark nationalPark)

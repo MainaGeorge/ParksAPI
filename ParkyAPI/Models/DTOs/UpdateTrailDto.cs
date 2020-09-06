@@ -1,7 +1,6 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace ParkyAPI.Models
+namespace ParkyAPI.Models.DTOs
 {
     public class UpdateTrailDto
     {
@@ -14,6 +13,8 @@ namespace ParkyAPI.Models
         [Required]
         public int NationalParkId { get; set; }
 
+        [Required]
+        public double Elevation { get; set; }
 
         [Required]
         [Range(1, 10000)]

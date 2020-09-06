@@ -1,5 +1,6 @@
 ﻿using ParkyAPI.Models;
 using System.Collections.Generic;
+using ParkyAPI.Models.DTOs;
 
 namespace ParkyAPI.Services.IRepositoryService
 {

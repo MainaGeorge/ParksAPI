@@ -92,7 +92,7 @@
             <param name="trailId"></param>
             <returns></returns>
         </member>
-        <member name="M:ParkyAPI.Controllers.TrailsController.UpdateTrail(System.Int32,ParkyAPI.Models.UpdateTrailDto)">
+        <member name="M:ParkyAPI.Controllers.TrailsController.UpdateTrail(System.Int32,ParkyAPI.Models.DTOs.UpdateTrailDto)">
             <summary>
             updates the trail with the given trail id with the data provided
             </summary>

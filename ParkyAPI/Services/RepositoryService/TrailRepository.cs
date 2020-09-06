@@ -4,6 +4,7 @@ using ParkyAPI.Models;
 using ParkyAPI.Services.IRepositoryService;
 using System.Collections.Generic;
 using System.Linq;
+using ParkyAPI.Models.DTOs;
 
 namespace ParkyAPI.Services.RepositoryService
 {
@@ -45,6 +46,7 @@ namespace ParkyAPI.Services.RepositoryService
             trailToUpdate.DifficultyLevel = trail.DifficultyLevel;
             trailToUpdate.NationalParkId = trail.NationalParkId;
             trailToUpdate.Distance = trail.Distance;
+            trailToUpdate.Elevation = trail.Elevation;
 
             return SaveChanges();
         }
