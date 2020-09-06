@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using NationalParksProject.Services.IRepository;
+using NationalParksProject.Services.Repository;
 
 namespace NationalParksProject
 {
@@ -19,6 +21,8 @@ namespace NationalParksProject
         public static void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
+            services.AddScoped<INationalParkRepository, NationalParkRepository>();
+            services.AddScoped<ITrailRepository, TrailRepository>();
             services.AddHttpClient();
         }
 
