@@ -33,7 +33,8 @@ namespace NationalParksProject.Controllers
                 {
                     Text = p.Name,
                     Value = p.Id.ToString()
-                })
+                }),
+                Trail = new Trail()
             };
 
             if (!id.HasValue) return View(viewModel);
@@ -47,7 +48,18 @@ namespace NationalParksProject.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Upsert(TrailViewModel viewModel)
         {
-            if (!ModelState.IsValid) return View(viewModel);
+            if (!ModelState.IsValid)
+            {
+                var nationalParks = await _nationalParkRepository.GetAll(AppConstants.NationalParkApiPath);
+
+                viewModel.NationalParks = nationalParks.Select(p => new SelectListItem()
+                {
+                    Text = p.Name,
+                    Value = p.Id.ToString()
+                });
+
+                return View(viewModel);
+            }
 
             if (viewModel.Trail.Id == 0)
             {
@@ -66,12 +78,17 @@ namespace NationalParksProject.Controllers
         {
             if (await _trailRepository.DeleteAsync(AppConstants.TrailsApiPath, id))
             {
-                return Json(new {success = true, message = "deleted successfully"});
+                return Json(new { success = true, message = "deleted successfully" });
             }
             else
             {
-                return Json(new {success = false, message = "something went wrong while deleting"});
+                return Json(new { success = false, message = "something went wrong while deleting" });
             }
+        }
+
+        public async Task<IActionResult> GetAllTrails()
+        {
+            return Json(new { data = await _trailRepository.GetAll(AppConstants.TrailsApiPath) });
         }
     }
 }

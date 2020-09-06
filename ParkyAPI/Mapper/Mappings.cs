@@ -12,7 +12,7 @@ namespace ParkyAPI.Mapper
             CreateMap<Trail, TrailDto>()
                 .ForMember(m => m.NationalParkDto,
                     opt => opt.MapFrom(m => m.NationalPark))
-                .ReverseMap();
+                 .ReverseMap();
             CreateMap<CreateTrailDto, Trail>().ForMember(m => m.Id, opt =>
                 {
                     opt.Ignore();
