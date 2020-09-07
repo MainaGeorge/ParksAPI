@@ -11,6 +11,11 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <Compile Remove="Data\Migrations\20200907091930_AddingUsersToDb.cs" />
+      <Compile Remove="Data\Migrations\20200907091930_AddingUsersToDb.Designer.cs" />
+    </ItemGroup>
+
+    <ItemGroup>
       <None Include="..\.editorconfig" Link=".editorconfig" />
     </ItemGroup>
 

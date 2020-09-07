@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ParkyAPI.Models;
-using ParkyAPI.Services.RepositoryService;
 
 namespace ParkyAPI.Data
 {
@@ -12,5 +11,7 @@ namespace ParkyAPI.Data
 
         public DbSet<NationalPark> NationalParks { get; set; }
         public DbSet<Trail> Trails { get; set; }
+
+        public DbSet<User> Users { get; set; }  
     }
 }

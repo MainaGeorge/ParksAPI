@@ -39,6 +39,8 @@ namespace ParkyAPI
 
             services.AddScoped<ITrailRepository, TrailRepository>();
 
+            services.AddScoped<IUserRepository, UserRepository>();
+
             services.AddAutoMapper(typeof(Mappings));
 
             services.AddApiVersioning(opt =>
