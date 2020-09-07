@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ParkyAPI.Models;
@@ -8,9 +9,7 @@ using System.Collections.Generic;
 
 namespace ParkyAPI.Controllers
 {
-    /// <summary>
-    /// park controller
-    /// </summary>
+    [Authorize]
     [Route("api/v{version:apiVersion}/nationalparks")]
     [ApiVersion("1.0")]
     [ApiController]

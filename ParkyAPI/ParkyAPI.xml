@@ -4,11 +4,6 @@
         <name>ParkyAPI</name>
     </assembly>
     <members>
-        <member name="T:ParkyAPI.Controllers.NationalParksController">
-            <summary>
-            park controller
-            </summary>
-        </member>
         <member name="M:ParkyAPI.Controllers.NationalParksController.GetAllNationalParks">
             <summary>
                 Returns a list of all the national parks in the database
