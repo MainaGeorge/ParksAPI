@@ -13,7 +13,7 @@ namespace ParkyAPI.Models.DTOs
         [Required]
         public int NationalParkId { get; set; }
 
-        public NationalParkDto NationalParkDto { get; set; }
+        public NationalParkDtoNoPhoto NationalPark { get; set; }
 
         [Required]
         public double Distance { get; set; }

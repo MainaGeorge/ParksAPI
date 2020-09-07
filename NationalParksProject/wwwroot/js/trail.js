@@ -14,7 +14,7 @@ function loadDataTable() {
             "datatype": "json"
         },
         "columns": [
-            { "data": "nationalParkDto.name", "width": "25%" },
+            { "data": "nationalPark.name", "width": "25%" },
             { "data": "name", "width": "20%" },
             { "data": "distance", "width": "15%" },
             { "data": "elevation", "width": "15%" },
