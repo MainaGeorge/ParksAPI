@@ -1,4 +1,6 @@
+using System.Text;
 using AutoMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -12,6 +14,7 @@ using ParkyAPI.Services.IRepositoryService;
 using ParkyAPI.Services.RepositoryService;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace ParkyAPI
@@ -52,6 +55,32 @@ namespace ParkyAPI
             services.AddVersionedApiExplorer(opt => opt.GroupNameFormat = "'v'VVV");
             services.AddTransient<IConfigureOptions<SwaggerGenOptions>, SwaggerGenConfigurations>();
             services.AddSwaggerGen();
+
+            var appSettingsSection = Configuration.GetSection("AppSettings");
+
+            var appSettings = appSettingsSection.Get<AppSettings>();
+
+            var key = Encoding.ASCII.GetBytes(appSettings.SecretKey);
+
+            services.Configure<AppSettings>(appSettingsSection);
+
+            services.AddAuthentication(x =>
+            {
+                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+
+            }).AddJwtBearer(x =>
+            {
+                x.RequireHttpsMetadata = false;
+                x.SaveToken = true;
+                x.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ValidateIssuer = false,
+                    ValidateAudience = false
+                };
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -77,6 +106,7 @@ namespace ParkyAPI
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
