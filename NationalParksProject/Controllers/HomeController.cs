@@ -6,21 +6,32 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using NationalParksProject.Models;
+using NationalParksProject.Models.ViewModels;
+using NationalParksProject.Services.IRepository;
 
 namespace NationalParksProject.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly INationalParkRepository _nationalParkRepository;
+        private readonly ITrailRepository _trailRepository;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(INationalParkRepository nationalParkRepository,
+            ITrailRepository trailRepository)
         {
-            _logger = logger;
+            _nationalParkRepository = nationalParkRepository;
+            _trailRepository = trailRepository;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var viewModel = new HomeViewModel()
+            {
+                NationalParks = await _nationalParkRepository.GetAll(AppConstants.NationalParkApiPath),
+                Trails = await _trailRepository.GetAll(AppConstants.TrailsApiPath)
+            };
+
+            return View(viewModel);
         }
 
         public IActionResult Privacy()

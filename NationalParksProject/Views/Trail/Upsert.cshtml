@@ -25,6 +25,7 @@
                     @Html.DropDownListFor(m => m.Trail.NationalParkId, Model.NationalParks,
                              "please select a national park",
                              new { @class = "form-control" })
+                    <span asp-validation-for="Trail.NationalParkId"></span>
 
                 </div>
             </div>
@@ -79,7 +80,6 @@
                 </div>
             </div>
         </div>
-        <
     </div>
 
 </form>

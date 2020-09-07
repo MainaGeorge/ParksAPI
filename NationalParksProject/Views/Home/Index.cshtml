@@ -1,8 +1,70 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
+﻿@model NationalParksProject.Models.ViewModels.HomeViewModel
+<div class="container">
+    <div class="row pb-4">
+        @foreach (var park in Model.NationalParks)
+        {
+            <div class="container pb-4">
+                <div class="card border">
+                    <div class="card-header bg-dark text-light ml-0 row container">
+                        <div class="col-12 col-md-6">
+                            <h1 class="text-warning">@park.Name</h1>
+                        </div>
+                        <div class="col-12 col-md-6 text-md-right">
+                            <h1 class="text-warning">State : @park.State </h1>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="container rounded p-2">
+                            <div class="row">
+                                <div class="col-12 col-lg-8">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <h3 style="color: #bbb9b9">Established: @park.Established.Year </h3>
+                                        </div>
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+                                        @if (Model.Trails.Any(p => p.NationalParkId == park.Id))
+                                        {
+                                            <div class="col-12">
+                                                <table class="table table-striped" style="border: 1px solid #808080">
+                                                    <tr class="table-secondary">
+                                                        <th>Trail</th>
+                                                        <th>Distance</th>
+                                                        <th>Elevation Gain</th>
+                                                        <th>Difficulty</th>
+                                                    </tr>
+                                                    @foreach (var trail in Model.Trails.Where(p => p.NationalParkId == park.Id))
+                                                    {
+                                                        <tr>
+                                                            <td>@trail.Name</td>
+                                                            <td>@trail.Distance miles</td>
+                                                            <td>@trail.Elevation ft</td>
+                                                            <td>@trail.DifficultyLevel</td>
+                                                        </tr>
+                                                    }
+                                                </table>
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <p class="text-primary h3">No trails exist in this park</p>
+                                        }
+                                    </div>
+                                </div>
+                                @if (park.Picture != null)
+                                {
+                                    <div class="col-12 col-lg-4 text-center">
+                                        @{
+                                            var base64String = Convert.ToBase64String(park.Picture);
+                                            var imagePath = $"data:image/jpg;base64,{base64String}";
+                                        }
+                                        <img src="@imagePath" class="card-img-top p-2 rounded" alt="@park.Name image" width="100%" />
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
 </div>
