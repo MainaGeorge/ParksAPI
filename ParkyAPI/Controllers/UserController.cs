@@ -49,7 +49,7 @@ namespace ParkyAPI.Controllers
 
             if (!isUsernameUnique) return BadRequest(new { message = "username already exists" });
 
-            var user = _userRepository.RegisterUser(userModel.Username, userModel.Password);
+            var user = _userRepository.RegisterUser(userModel.Username, userModel.Password, userModel.Role);
 
             if (user == null)
                 return StatusCode(StatusCodes.Status500InternalServerError, new { message = "could not save user" });

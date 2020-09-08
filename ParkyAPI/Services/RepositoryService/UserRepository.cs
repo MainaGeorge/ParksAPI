@@ -41,12 +41,13 @@ namespace ParkyAPI.Services.RepositoryService
 
         }
 
-        public User RegisterUser(string username, string password)
+        public User RegisterUser(string username, string password, string role)
         {
             var user = new User()
             {
                 Password = password,
-                Username = username
+                Username = username,
+                Role = role
             };
 
             _context.Users.Add(user);

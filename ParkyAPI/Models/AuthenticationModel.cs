@@ -9,5 +9,7 @@ namespace ParkyAPI.Models
 
         [Required]
         public string Password { get; set; }
+
+        public string Role { get; set; }    
     }
 }

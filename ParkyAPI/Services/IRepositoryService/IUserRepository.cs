@@ -6,7 +6,7 @@ namespace ParkyAPI.Services.IRepositoryService
     {
         bool IsUniqueUser(string username);
         User AuthenticateUser(string username, string password);
-        User RegisterUser(string username, string password);
+        User RegisterUser(string username, string password,string role);
 
         User GetUser(string username);
     }
