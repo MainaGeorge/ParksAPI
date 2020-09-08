@@ -13,6 +13,8 @@
     <ItemGroup>
       <Compile Remove="Data\Migrations\20200907091930_AddingUsersToDb.cs" />
       <Compile Remove="Data\Migrations\20200907091930_AddingUsersToDb.Designer.cs" />
+      <Compile Remove="Data\Migrations\20200908050219_some.cs" />
+      <Compile Remove="Data\Migrations\20200908050219_some.Designer.cs" />
     </ItemGroup>
 
     <ItemGroup>

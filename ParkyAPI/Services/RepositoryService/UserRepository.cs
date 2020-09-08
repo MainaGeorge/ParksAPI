@@ -1,13 +1,13 @@
-﻿using System;
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
-using System.Security.Claims;
-using System.Text;
-using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using ParkyAPI.Data;
 using ParkyAPI.Models;
 using ParkyAPI.Services.IRepositoryService;
+using System;
+using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
+using System.Security.Claims;
+using System.Text;
 
 namespace ParkyAPI.Services.RepositoryService
 {
@@ -23,12 +23,12 @@ namespace ParkyAPI.Services.RepositoryService
         }
         public bool IsUniqueUser(string username)
         {
-            return _context.Users.All(u => u.Name.ToLower().Trim() != username.ToLower().Trim());
+            return _context.Users.All(u => u.Username.ToLower().Trim() != username.ToLower().Trim());
         }
 
         public User AuthenticateUser(string username, string password)
         {
-            var user = _context.Users.SingleOrDefault(u => u.Name == username && u.Password == password);
+            var user = _context.Users.SingleOrDefault(u => u.Username == username && u.Password == password);
 
             if (user == null) return null;
 
@@ -43,7 +43,26 @@ namespace ParkyAPI.Services.RepositoryService
 
         public User RegisterUser(string username, string password)
         {
-            throw new NotImplementedException();
+            var user = new User()
+            {
+                Password = password,
+                Username = username
+            };
+
+            _context.Users.Add(user);
+
+            _context.SaveChanges();
+
+            user.Password = "";
+
+            return user;
+        }
+
+        public User GetUser(string username)
+        {
+            var user = _context.Users.SingleOrDefault(u => u.Username.ToLower().Trim() == username.Trim().ToLower());
+
+            return user;
         }
 
         private string CreateJwtToken(User user)
@@ -51,7 +70,7 @@ namespace ParkyAPI.Services.RepositoryService
             var key = _appSettings.SecretKey;
             var claimsToAddToToken = new[]
             {
-                new Claim(ClaimTypes.Name, user.Name),
+                new Claim(ClaimTypes.Name, user.Username),
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
             };
 
