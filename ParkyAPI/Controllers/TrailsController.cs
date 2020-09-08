@@ -6,9 +6,11 @@ using ParkyAPI.Models.DTOs;
 using ParkyAPI.Services.IRepositoryService;
 using System;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ParkyAPI.Controllers
 {
+    [Authorize(Roles = "Admin")]
     [Route("api/v{version:apiVersion}/Trails")]
     [ApiController]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -28,6 +30,7 @@ namespace ParkyAPI.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
+        [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<TrailDto>))]
         public IActionResult GetAllTrails()
         {
@@ -44,6 +47,7 @@ namespace ParkyAPI.Controllers
         /// <param name="trailId"></param>
         /// <returns></returns>
         [HttpGet("{trailId:int}", Name = "GetTrailById")]
+        [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(TrailDto))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public IActionResult GetTrailById(int trailId)
@@ -63,6 +67,7 @@ namespace ParkyAPI.Controllers
         /// <param name="nationalParkId"></param>
         /// <returns></returns>
         [HttpGet("[action]/{nationalParkId:int}")]
+        [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<TrailDto>))]
         public IActionResult GetAllTrailsInANationalPark(int nationalParkId)
         {

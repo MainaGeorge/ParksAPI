@@ -6,7 +6,7 @@ using ParkyAPI.Services.IRepositoryService;
 
 namespace ParkyAPI.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     [Route("api/v{version:apiVersion}/users")]
     [ApiVersion("1.0")]
     [ApiController]
@@ -19,6 +19,7 @@ namespace ParkyAPI.Controllers
             _userRepository = userRepository;
         }
 
+        
         [HttpGet("{username}", Name = "GetUser")]
         public IActionResult GetUser(string username)
         {

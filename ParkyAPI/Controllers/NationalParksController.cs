@@ -9,7 +9,7 @@ using System.Collections.Generic;
 
 namespace ParkyAPI.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     [Route("api/v{version:apiVersion}/nationalparks")]
     [ApiVersion("1.0")]
     [ApiController]
@@ -32,6 +32,7 @@ namespace ParkyAPI.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
+        [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<NationalPark>))]
         public IActionResult GetAllNationalParks()
         {
@@ -48,6 +49,7 @@ namespace ParkyAPI.Controllers
         /// </summary>
         /// <param name="nationalParkId"></param>
         /// <returns></returns>
+        [AllowAnonymous]
         [HttpGet("{nationalParkId:int}", Name = "GetNationalParkById")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(NationalParkDto))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
