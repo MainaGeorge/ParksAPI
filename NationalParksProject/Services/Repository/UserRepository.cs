@@ -42,11 +42,13 @@ namespace NationalParksProject.Services.Repository
 
         public async Task<bool> RegisterAsync(string url, User user)
         {
+            user.Role = string.IsNullOrWhiteSpace(user.Role) ? "user" : user.Role;
+
             var request = new HttpRequestMessage(HttpMethod.Post, url);
 
-            if (user == null) return false;
+            if (user.Password == null || user.Username == null) return false;
 
-            request.Content = new StringContent(JsonConvert.SerializeObject(user), Encoding.ASCII, "application/json");
+            request.Content = new StringContent(JsonConvert.SerializeObject(user), Encoding.UTF8, "application/json");
 
             var client = _clientFactory.CreateClient();
 
