@@ -1,10 +1,12 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using NationalParksProject.Services.IRepository;
 using NationalParksProject.Services.Repository;
+using System;
 
 namespace NationalParksProject
 {
@@ -22,8 +24,19 @@ namespace NationalParksProject
         {
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.AddScoped<INationalParkRepository, NationalParkRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<ITrailRepository, TrailRepository>();
             services.AddHttpClient();
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddSession(s =>
+            {
+                s.IdleTimeout = TimeSpan.FromMinutes(30);
+                s.Cookie.IsEssential = true;
+                s.Cookie.HttpOnly = true;
+
+            });
+            services.AddCors();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -41,8 +54,18 @@ namespace NationalParksProject
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+            
 
             app.UseRouting();
+            app.UseCors(x =>
+            {
+                x.AllowAnyMethod();
+                x.AllowAnyOrigin();
+                x.AllowAnyHeader();
+            });
+
+            app.UseSession();
+            app.UseAuthentication();
 
             app.UseAuthorization();
 

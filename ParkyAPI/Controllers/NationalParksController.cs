@@ -49,7 +49,7 @@ namespace ParkyAPI.Controllers
         /// </summary>
         /// <param name="nationalParkId"></param>
         /// <returns></returns>
-        [AllowAnonymous]
+        [Authorize]
         [HttpGet("{nationalParkId:int}", Name = "GetNationalParkById")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(NationalParkDto))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]

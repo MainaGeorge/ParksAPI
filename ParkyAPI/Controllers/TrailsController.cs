@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ParkyAPI.Models;
@@ -6,7 +7,6 @@ using ParkyAPI.Models.DTOs;
 using ParkyAPI.Services.IRepositoryService;
 using System;
 using System.Collections.Generic;
-using Microsoft.AspNetCore.Authorization;
 
 namespace ParkyAPI.Controllers
 {
@@ -47,7 +47,7 @@ namespace ParkyAPI.Controllers
         /// <param name="trailId"></param>
         /// <returns></returns>
         [HttpGet("{trailId:int}", Name = "GetTrailById")]
-        [AllowAnonymous]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(TrailDto))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public IActionResult GetTrailById(int trailId)
@@ -67,7 +67,7 @@ namespace ParkyAPI.Controllers
         /// <param name="nationalParkId"></param>
         /// <returns></returns>
         [HttpGet("[action]/{nationalParkId:int}")]
-        [AllowAnonymous]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<TrailDto>))]
         public IActionResult GetAllTrailsInANationalPark(int nationalParkId)
         {
